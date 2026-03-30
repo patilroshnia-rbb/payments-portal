@@ -1,0 +1,64 @@
+<h2>Payments Portal</h2>
+
+<form [formGroup]="form">
+
+  <!-- Amount -->
+  <input 
+    type="number" 
+    formControlName="amount" 
+    placeholder="Amount" 
+  />
+
+  <!-- Validation -->
+  <div *ngIf="form.get('amount')?.invalid && form.get('amount')?.touched">
+    <small style="color:red">Amount must be greater than 0</small>
+  </div>
+
+  <!-- Currency -->
+  <select formControlName="currency">
+    <option value="USD">USD</option>
+    <option value="EUR">EUR</option>
+    <option value="INR">INR</option>
+    <option value="GBP">GBP</option>
+  </select>
+
+  <br><br>
+
+  <!-- Buttons -->
+  <button type="button" (click)="submit()" *ngIf="!editingId">
+    Add
+  </button>
+
+  <button type="button" (click)="update()" *ngIf="editingId">
+    Update
+  </button>
+
+</form>
+
+<hr>
+
+<!-- Table -->
+<table border="1" width="100%">
+  <thead>
+    <tr>
+      <th>Reference</th>
+      <th>Amount</th>
+      <th>Currency</th>
+      <th>Date</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let p of payments">
+      <td>{{ p.reference }}</td>
+      <td>{{ p.amount }}</td>
+      <td>{{ p.currency }}</td>
+      <td>{{ p.createdAt | date:'short' }}</td>
+      <td>
+        <button type="button" (click)="edit(p)">Edit</button>
+        <button type="button" (click)="delete(p.clientRequestId!)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
